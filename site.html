@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Chronologie InnovaSchool 2025-2026</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0f172a; color:#fff; font-family: 'Segoe UI', Arial, sans-serif; }
+
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  padding: 48px 24px 32px;
+  text-align: center;
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+}
+.hero-tag { font-size:11px; letter-spacing:4px; color:#c9a84c; font-weight:700; margin-bottom:12px; text-transform:uppercase; }
+.hero h1 { font-size: clamp(24px,5vw,44px); font-weight:900; margin-bottom:10px; }
+.hero h1 span { color:#c9a84c; }
+.hero p { color:rgba(255,255,255,0.5); font-size:14px; max-width:500px; margin:0 auto 16px; line-height:1.6; }
+.badge { display:inline-block; padding:6px 20px; background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4); border-radius:100px; font-size:13px; color:#f0e0a8; font-weight:600; letter-spacing:1px; }
+
+.wrap { max-width:860px; margin:0 auto; padding:48px 20px 64px; position:relative; }
+
+.spine {
+  position:absolute; left:50%; top:0; bottom:0; width:2px;
+  background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.6) 10%, rgba(201,168,76,0.6) 90%, transparent);
+  transform:translateX(-50%);
+}
+
+.phase {
+  display:flex; align-items:flex-start; margin-bottom:40px;
+  animation: up .4s ease both;
+}
+.phase:nth-child(even) { flex-direction:row-reverse; }
+@keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.phase:nth-child(2){animation-delay:.05s}
+.phase:nth-child(3){animation-delay:.1s}
+.phase:nth-child(4){animation-delay:.15s}
+.phase:nth-child(5){animation-delay:.2s}
+.phase:nth-child(6){animation-delay:.25s}
+.phase:nth-child(7){animation-delay:.3s}
+
+.card {
+  width:calc(50% - 36px);
+  background:rgba(22,32,60,0.9);
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.08);
+  overflow:hidden;
+  transition:transform .2s, box-shadow .2s;
+  position:relative;
+}
+.card:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+
+.card-top { padding:16px 18px 12px; }
+.card-labels { display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+.phase-num { font-size:10px; font-weight:700; letter-spacing:2px; opacity:.45; }
+.pill { font-size:10px; font-weight:700; padding:3px 10px; border-radius:100px; letter-spacing:.5px; }
+.card-title { font-size:16px; font-weight:800; margin-bottom:4px; }
+.card-desc { font-size:12.5px; color:rgba(255,255,255,0.55); line-height:1.6; }
+
+.toggle {
+  width:100%; padding:10px 18px;
+  background:rgba(255,255,255,0.03);
+  border:none; border-top:1px solid rgba(255,255,255,0.06);
+  color:rgba(255,255,255,0.4); font-size:11px; font-weight:700;
+  letter-spacing:1.5px; cursor:pointer; text-align:left;
+  display:flex; justify-content:space-between; align-items:center;
+  transition:background .2s, color .2s;
+}
+.toggle:hover { background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); }
+.arr { transition:transform .25s; display:inline-block; }
+.toggle.open .arr { transform:rotate(180deg); }
+
+.details { display:none; padding:14px 18px; border-top:1px solid rgba(255,255,255,0.06); }
+.details.open { display:block; animation: fadeIn .22s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.details ul { list-style:none; display:flex; flex-direction:column; gap:7px; }
+.details li { font-size:12.5px; color:rgba(255,255,255,0.65); padding-left:18px; position:relative; line-height:1.5; }
+.details li::before { content:'→'; position:absolute; left:0; font-size:11px; color:#c9a84c; }
+
+.result { margin-top:10px; padding:7px 12px; border-radius:6px; font-size:11.5px; font-weight:700; }
+
+.months { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:10px; }
+.mcard { border-radius:6px; padding:8px; text-align:center; border:1px solid; }
+.mcard .mn { font-size:9px; font-weight:800; letter-spacing:1px; margin-bottom:3px; }
+.mcard .mr { font-size:11px; font-weight:700; margin-bottom:2px; }
+.mcard .md { font-size:10px; opacity:.6; font-style:italic; }
+
+.dot {
+  position:absolute; left:50%; transform:translateX(-50%);
+  top:18px; width:16px; height:16px; border-radius:50%;
+  border:3px solid #0f172a; z-index:2;
+  box-shadow: 0 0 0 2.5px currentColor, 0 3px 12px rgba(0,0,0,0.4);
+}
+
+.date-col {
+  width:calc(50% - 36px);
+  display:flex; align-items:flex-start; justify-content:flex-end;
+  padding-top:14px; padding-right:20px;
+}
+.phase:nth-child(even) .date-col {
+  justify-content:flex-start; padding-right:0; padding-left:20px;
+}
+.date-box { text-align:center; }
+.date-box .dm { font-size:13px; font-weight:800; }
+.date-box .dy { font-size:11px; color:rgba(255,255,255,0.35); margin-top:1px; }
+.date-box .dd { display:inline-block; margin-top:5px; font-size:10px; padding:2px 10px; border-radius:100px; background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.4); }
+
+.phase:nth-child(odd) .card::before {
+  content:''; position:absolute; right:-9px; top:26px;
+  border:7px solid transparent; border-left-color:rgba(22,32,60,0.9);
+}
+.phase:nth-child(even) .card::before {
+  content:''; position:absolute; left:-9px; top:26px;
+  border:7px solid transparent; border-right-color:rgba(22,32,60,0.9);
+}
+
+@media(max-width:600px){
+  .spine{left:20px;}
+  .phase,.phase:nth-child(even){flex-direction:column;padding-left:44px;}
+  .card,.date-col{width:100%;}
+  .date-col{padding:0 0 8px!important;justify-content:flex-start!important;}
+  .dot{left:20px;}
+  .phase:nth-child(odd) .card::before,
+  .phase:nth-child(even) .card::before { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Chronologie officielle</div>
+  <h1>InnovaSchool &mdash; <span>2025–2026</span></h1>
+  <p>Année scolaire complète · 6 phases · 4 pôles · Clôture avant les examens nationaux du Cameroun</p>
+  <div class="badge">Septembre 2025 &rarr; Mai 2026</div>
+</div>
+
+<div class="wrap">
+  <div class="spine"></div>
+
+  <!-- PHASE 0 -->
+  <div class="phase">
+    <div class="card" style="border-left:4px solid #6366f1">
+      <div class="card-top">
+        <div class="card-labels">
+          <span class="phase-num">PHASE 0</span>
+          <span class="pill" style="background:rgba(99,102,241,.2);color:#a5b4fc">Lancement</span>
+        </div>
+        <div class="card-title">Présentation & Formation des groupes</div>
+        <div class="card-desc">Les 4 thèmes validés sont présentés aux élèves. Chaque élève rejoint un groupe selon les quotas de son pôle.</div>
+      </div>
+      <button class="toggle" onclick="tog(this)">VOIR LES DÉTAILS <span class="arr">▼</span></button>
+      <div class="details">
+        <ul>
+          <li>Pôle 1 : Organisation et valorisation des ressources éducatives</li>
+          <li>Pôle 2 : Sensibilisation aux comportements écologiques</li>
+          <li>Pôle 3 : Transformation et valorisation des produits agricoles</li>
+          <li>Pôle 4 : Valorisation de l'histoire et des identités locales</li>
+          <li>Formation des groupes selon les quotas définis par pôle</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dot" style="color:#6366f1;background:#6366f1"></div>
+    <div class="date-col">
+      <div class="date-box">
+        <div class="dm" style="color:#a5b4fc">Septembre</div>
+        <div class="dy">2025</div>
+        <div class="dd">~ 2 semaines</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase">
+    <div class="card" style="border-right:4px solid #ea580c">
+      <div class="card-top">
+        <div class="card-labels">
+          <span class="phase-num">PHASE 1</span>
+          <span class="pill" style="background:rgba(234,88,12,.2);color:#fdba74">Sélection</span>
+        </div>
+        <div class="card-title">Dossier de candidature & Filtrage</div>
+        <div class="card-desc">Si plus de 2 groupes par pôle, sélection des 2 meilleurs sur 3 livrables obligatoires.</div>
+        <div class="result" style="background:rgba(234,88,12,.15);color:#fdba74;border:1px solid rgba(234,88,12,.3)">✔ 2 groupes retenus / pôle → 8 groupes au total</div>
+      </div>
+      <button class="toggle" onclick="tog(this)">VOIR LES DÉTAILS <span class="arr">▼</span></button>
+      <div class="details">
+        <ul>
+          <li>CV du groupe — remis obligatoirement en format papier</li>
+          <li>Capsule vidéo ≤ 15 min : présentation des membres + idées</li>
+          <li>Lettre de motivation du groupe</li>
+          <li>Évaluation par le comité sur les 3 critères</li>
+          <li>Si ≤ 2 groupes par pôle : phase de sélection non nécessaire</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dot" style="color:#ea580c;background:#ea580c"></div>
+    <div class="date-col">
+      <div class="date-box">
+        <div class="dm" style="color:#fdba74">Octobre</div>
+        <div class="dy">2025</div>
+        <div class="dd">~ 3 semaines</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase">
+    <div class="card" style="border-left:4px solid #059669">
+      <div class="card-top">
+        <div class="card-labels">
+          <span class="phase-num">PHASE 2</span>
+          <span class="pill" style="background:rgba(5,150,105,.2);color:#6ee7b7">Élaboration</span>
+        </div>
+        <div class="card-title">3 mois de travail guidé</div>
+        <div class="card-desc">Financement initial accordé. Feuille de route élaborée avec 3 rendez-vous mensuels avec la cellule mentor.</div>
+      </div>
+      <button class="toggle" onclick="tog(this)">VOIR LES DÉTAILS <span class="arr">▼</span></button>
+      <div class="details">
+        <div class="months">
+          <div class="mcard" style="background:rgba(5,150,105,.15);border-color:rgba(5,150,105,.5)">
+            <div class="mn" style="color:#6ee7b7">NOV. 2025</div>
+            <div class="mr">1er RDV Mentor</div>
+            <div class="md">Bilan de lancement</div>
+          </div>
+          <div class="mcard" style="background:rgba(5,150,105,.15);border-color:rgba(5,150,105,.5)">
+            <div class="mn" style="color:#6ee7b7">DÉC. 2025</div>
+            <div class="mr">2e RDV Mentor</div>
+            <div class="md">Point d'étape</div>
+          </div>
+          <div class="mcard" style="background:rgba(5,150,105,.15);border-color:rgba(5,150,105,.5)">
+            <div class="mn" style="color:#6ee7b7">JAN. 2026</div>
+            <div class="mr">3e RDV Mentor</div>
+            <div class="md">Revue finale</div>
+          </div>
+        </div>
+        <ul>
+          <li>Financement de démarrage accordé à chaque groupe</li>
+          <li>Plan d'implémentation complet, réaliste et palpable</li>
+          <li>Respect du budget fixe alloué impérativement</li>
+          <li>Livrable prêt à présenter au comité en février 2026</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dot" style="color:#059669;background:#059669"></div>
+    <div class="date-col">
+      <div class="date-box">
+        <div class="dm" style="color:#6ee7b7">Nov. 2025 → Jan. 2026</div>
+        <div class="dy">&nbsp;</div>
+        <div class="dd">3 mois</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase">
+    <div class="card" style="border-right:4px solid #d97706">
+      <div class="card-top">
+        <div class="card-labels">
+          <span class="phase-num">PHASE 3</span>
+          <span class="pill" style="background:rgba(217,119,6,.2);color:#fcd34d">Compétition</span>
+        </div>
+        <div class="card-title">Présentation devant le comité</div>
+        <div class="card-desc">Les 2 groupes de chaque pôle présentent leur plan. Le comité retient 1 groupe par pôle pour le financement final.</div>
+        <div class="result" style="background:rgba(217,119,6,.15);color:#fcd34d;border:1px solid rgba(217,119,6,.3)">✔ 1 groupe financé / pôle → 4 groupes finalistes</div>
+      </div>
+      <button class="toggle" onclick="tog(this)">CRITÈRES D'ÉVALUATION <span class="arr">▼</span></button>
+      <div class="details">
+        <ul>
+          <li>Faisabilité technique et opérationnelle</li>
+          <li>Respect du budget alloué</li>
+          <li>Impact positif mesurable (social, éducatif, environnemental)</li>
+          <li>Originalité et innovation de l'approche</li>
+          <li>Clarté et solidité de la feuille de route</li>
+          <li>Engagement et dynamisme de l'équipe</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dot" style="color:#d97706;background:#d97706"></div>
+    <div class="date-col">
+      <div class="date-box">
+        <div class="dm" style="color:#fcd34d">Février</div>
+        <div class="dy">2026</div>
+        <div class="dd">~ 2 semaines</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase">
+    <div class="card" style="border-left:4px solid #7c3aed">
+      <div class="card-top">
+        <div class="card-labels">
+          <span class="phase-num">PHASE 4</span>
+          <span class="pill" style="background:rgba(124,58,237,.2);color:#c4b5fd">Implémentation</span>
+        </div>
+        <div class="card-title">Réalisation du projet</div>
+        <div class="card-desc">Les 4 finalistes réalisent leur projet sur 2 mois, avec suivi mensuel des mentors et interventions d'experts.</div>
+      </div>
+      <button class="toggle" onclick="tog(this)">VOIR LES DÉTAILS <span class="arr">▼</span></button>
+      <div class="details">
+        <ul>
+          <li><strong>Mars 2026</strong> — Démarrage, financement final accordé</li>
+          <li>Suivi mensuel par la cellule mentor (mars + avril)</li>
+          <li>Experts externes — fréquence bimestrielle</li>
+          <li>Rapports d'avancement réguliers produits par chaque groupe</li>
+          <li><strong>Fin avril 2026</strong> — Clôture de l'implémentation</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dot" style="color:#7c3aed;background:#7c3aed"></div>
+    <div class="date-col">
+      <div class="date-box">
+        <div class="dm" style="color:#c4b5fd">Mars — Avril</div>
+        <div class="dy">2026</div>
+        <div class="dd">2 mois</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase">
+    <div class="card" style="border-right:4px solid #c9a84c;background:linear-gradient(135deg,rgba(22,32,60,.95),rgba(30,28,80,.95))">
+      <div class="card-top">
+        <div class="card-labels">
+          <span class="phase-num">PHASE 5</span>
+          <span class="pill" style="background:rgba(201,168,76,.2);color:#f0e0a8">🏆 Cérémonie</span>
+        </div>
+        <div class="card-title" style="color:#f0e0a8">Journée des Résultats & Remise des Prix</div>
+        <div class="card-desc">Restitution publique des projets. 4 groupes lauréats récompensés. Clôture avant les examens nationaux camerounais.</div>
+        <div class="result" style="background:rgba(201,168,76,.15);color:#f0e0a8;border:1px solid rgba(201,168,76,.35)">✔ 4 pôles · 4 groupes primés · Avant les examens</div>
+      </div>
+      <button class="toggle" style="border-top-color:rgba(201,168,76,.2)" onclick="tog(this)">VOIR LES DÉTAILS <span class="arr">▼</span></button>
+      <div class="details">
+        <ul>
+          <li>Journée ou semaine dédiée à la présentation publique</li>
+          <li>Jury, mentors, experts, partenaires, familles présents</li>
+          <li>4 groupes lauréats récompensés parmi les 4 pôles</li>
+          <li>Bourses d'études pour les membres des groupes primés</li>
+          <li>Primes diverses selon les partenaires engagés</li>
+          <li>Cérémonie organisée avant les examens GCE / BEPC / BAC</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dot" style="color:#c9a84c;background:#c9a84c"></div>
+    <div class="date-col">
+      <div class="date-box">
+        <div class="dm" style="color:#f0e0a8">Mai</div>
+        <div class="dy">2026</div>
+        <div class="dd">1 semaine</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function tog(btn) {
+  const det = btn.nextElementSibling;
+  const isOpen = det.classList.contains('open');
+  det.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>
