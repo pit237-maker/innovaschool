@@ -1,5 +1,5 @@
 
-Bienvenu sur ce site d'innovation.
+Bienvenue sur ce site d'innovation.
 
 Nous espérons que la visite vous a permis de comprendre le projet.
 
