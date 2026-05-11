@@ -8,7 +8,7 @@ const DARK   = '#0C1B2A';
 const ORANGE = '#F97316';
 
 /* ── URL de ton Google Apps Script (à remplacer après configuration) ── */
-const APPS_SCRIPT_URL = 'REMPLACE_PAR_TON_URL';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwRQVurNoTSY0wIvCby3sxC3SWESzUD37atBS9VCVDsbzfS4wO3-WTAikenZ4a_8Df4Bw/exec';
 
 function Reveal({ children, delay = 0, className = '' }) {
   const { ref, visible } = useScrollReveal();
